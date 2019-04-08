@@ -42,3 +42,4 @@ node_modules
 /localfeed
 oldstate.json
 InternalAgentState.json
+.idea
