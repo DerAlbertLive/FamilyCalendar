@@ -4,7 +4,27 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var day in Model.Dashboard.Calender.Days)
+            {
+                <th>@day.DisplayName</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var week in Model.Dashboard.Calender.CurrentMonth.Weeks)
+        {
+            <tr>
+                @foreach (var day in week.Days)
+                {
+                    var css = day.IsInMonth ? "current-month" : "other-month";
+                    <td class="@css">@day.Day</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
