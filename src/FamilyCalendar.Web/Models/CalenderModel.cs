@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using NodaTime;
+using NodaTime.Extensions;
 
 namespace FamilyCalendar.Web.Models
 {
@@ -12,7 +14,7 @@ namespace FamilyCalendar.Web.Models
         public CalenderModel(CultureInfo cultureInfo)
         {
             _cultureInfo = cultureInfo;
-            CurrentMonth = new MonthModel(_cultureInfo, DateTimeOffset.Now);
+            CurrentMonth = new MonthModel(_cultureInfo, SystemClock.Instance.GetCurrentInstant().InUtc().Date);
         }
 
         public IEnumerable<DayModel> Days => GetWeekdays();
@@ -22,16 +24,16 @@ namespace FamilyCalendar.Web.Models
         {
             var days = new DayModel[7];
             var dateTimeFormat = _cultureInfo.DateTimeFormat;
-            var firstDay = (int)dateTimeFormat.FirstDayOfWeek;
+            var firstDay = (int)dateTimeFormat.FirstDayOfWeek.ToIsoDayOfWeek();
             for (var i = 0; i < days.Length; i++)
             {
                 var current = firstDay + i;
-                if (current >= 7)
+                if (current >= 8)
                 {
                     current -= 7;
                 }
-                var currentDay = (DayOfWeek)current;
-                days[i] = new DayModel(dateTimeFormat.GetAbbreviatedDayName(currentDay), currentDay);
+                var currentDay = (IsoDayOfWeek)current;
+                days[i] = new DayModel(dateTimeFormat.GetAbbreviatedDayName(currentDay.ToDayOfWeek()), currentDay);
             }
             return days;
         }

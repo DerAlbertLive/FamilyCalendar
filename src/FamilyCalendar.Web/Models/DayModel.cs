@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Globalization;
+using NodaTime;
+using NodaTime.Extensions;
 
 namespace FamilyCalendar.Web.Models
 {
     public class DayModel
     {
-        public DayModel(CultureInfo cultureInfo, DateTimeOffset date)
+        public DayModel(CultureInfo cultureInfo, LocalDate date)
         {
             Day = date.Day;
-            DayOfWeek = cultureInfo.Calendar.GetDayOfWeek(date.DateTime);
-            DisplayName = cultureInfo.DateTimeFormat.GetAbbreviatedDayName(DayOfWeek);
+            DayOfWeek = date.DayOfWeek;
+            DisplayName = cultureInfo.DateTimeFormat.GetAbbreviatedDayName(DayOfWeek.ToDayOfWeek());
         }
 
-        public DayModel(string dayName, DayOfWeek dayOfWeek)
+        public DayModel(string dayName, IsoDayOfWeek dayOfWeek)
         {
             DisplayName = dayName;
             DayOfWeek = dayOfWeek;
@@ -20,7 +22,7 @@ namespace FamilyCalendar.Web.Models
 
         public string DisplayName { get; }
 
-        public DayOfWeek DayOfWeek { get; }
+        public IsoDayOfWeek DayOfWeek { get; }
         
         public int Day { get; }
 

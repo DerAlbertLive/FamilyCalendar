@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using FamilyCalendar.Web.Models;
 using FluentAssertions;
+using NodaTime;
 using Xunit;
 
 namespace FamilyCalendar.Web.Tests.Models
@@ -12,16 +13,15 @@ namespace FamilyCalendar.Web.Tests.Models
         [Fact]
         public void Days_of_week_2019_04_08()
         {
-            var week = new WeekModel(new CultureInfo("de-DE"),
-                new DateTimeOffset(2019, 4, 8, 0, 0, 0, TimeSpan.FromHours(0)));
+            var week = new WeekModel(new CultureInfo("de-DE"), new LocalDate(2019, 4, 8));
             var days = week.Days.ToArray();
             days.Length.Should().Be(7);
 
             days[0].Day.Should().Be(8);
-            days[0].DayOfWeek.Should().Be(DayOfWeek.Monday);
+            days[0].DayOfWeek.Should().Be(IsoDayOfWeek.Monday);
             days[0].DisplayName.Should().Be("Mo");
             days[1].Day.Should().Be(9);
-            days[1].DayOfWeek.Should().Be(DayOfWeek.Tuesday);
+            days[1].DayOfWeek.Should().Be(IsoDayOfWeek.Tuesday);
             days[1].DisplayName.Should().Be("Di");
             days[2].Day.Should().Be(10);
             days[3].Day.Should().Be(11);
@@ -33,17 +33,16 @@ namespace FamilyCalendar.Web.Tests.Models
         [Fact]
         public void Days_of_week_2019_04_14()
         {
-            var week = new WeekModel(new CultureInfo("de-DE"),
-                new DateTimeOffset(2019, 4, 14, 0, 0, 0, TimeSpan.FromHours(0)));
+            var week = new WeekModel(new CultureInfo("de-DE"), new LocalDate(2019, 4, 14));
             var days = week.Days.ToArray();
 
             days.Length.Should().Be(7);
 
             days[0].Day.Should().Be(8);
-            days[0].DayOfWeek.Should().Be(DayOfWeek.Monday);
+            days[0].DayOfWeek.Should().Be(IsoDayOfWeek.Monday);
             days[0].DisplayName.Should().Be("Mo");
             days[1].Day.Should().Be(9);
-            days[1].DayOfWeek.Should().Be(DayOfWeek.Tuesday);
+            days[1].DayOfWeek.Should().Be(IsoDayOfWeek.Tuesday);
             days[1].DisplayName.Should().Be("Di");
             days[2].Day.Should().Be(10);
             days[3].Day.Should().Be(11);
@@ -55,17 +54,16 @@ namespace FamilyCalendar.Web.Tests.Models
         [Fact]
         public void Days_of_week_2019_04_11()
         {
-            var week = new WeekModel(new CultureInfo("de-DE"),
-                new DateTimeOffset(2019, 4, 11, 0, 0, 0, TimeSpan.FromHours(0)));
+            var week = new WeekModel(new CultureInfo("de-DE"), new LocalDate(2019, 4, 11));
             var days = week.Days.ToArray();
 
             days.Length.Should().Be(7);
 
             days[0].Day.Should().Be(8);
-            days[0].DayOfWeek.Should().Be(DayOfWeek.Monday);
+            days[0].DayOfWeek.Should().Be(IsoDayOfWeek.Monday);
             days[0].DisplayName.Should().Be("Mo");
             days[1].Day.Should().Be(9);
-            days[1].DayOfWeek.Should().Be(DayOfWeek.Tuesday);
+            days[1].DayOfWeek.Should().Be(IsoDayOfWeek.Tuesday);
             days[1].DisplayName.Should().Be("Di");
             days[2].Day.Should().Be(10);
             days[3].Day.Should().Be(11);
@@ -77,8 +75,7 @@ namespace FamilyCalendar.Web.Tests.Models
         [Fact]
         public void Days_of_week_2019_03_01()
         {
-            var week = new WeekModel(new CultureInfo("de-DE"),
-                new DateTimeOffset(2019, 3, 1, 0, 0, 0, TimeSpan.FromHours(0)));
+            var week = new WeekModel(new CultureInfo("de-DE"), new LocalDate(2019, 3, 1));
             var days = week.Days.ToArray();
 
             days.Length.Should().Be(7);
@@ -94,8 +91,7 @@ namespace FamilyCalendar.Web.Tests.Models
         [Fact]
         public void Days_of_week_2019_03_01_and_en_us()
         {
-            var week = new WeekModel(new CultureInfo("en-US"),
-                new DateTimeOffset(2019, 3, 1, 0, 0, 0, TimeSpan.FromHours(0)));
+            var week = new WeekModel(new CultureInfo("en-US"), new LocalDate(2019, 3, 1));
             var days = week.Days.ToArray();
 
             days.Length.Should().Be(7);

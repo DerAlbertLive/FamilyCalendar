@@ -1,48 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using NodaTime;
 
 namespace FamilyCalendar.Web.Models
 {
     public class MonthModel
     {
         private readonly CultureInfo _cultureInfo;
-        private readonly DateTimeOffset _now;
+        private readonly LocalDate _today;
 
-        public MonthModel(CultureInfo cultureInfo, DateTimeOffset now)
+        public MonthModel(CultureInfo cultureInfo, LocalDate today)
         {
             _cultureInfo = cultureInfo;
-            _now = now;
+            _today = today;
         }
 
-        public IEnumerable<WeekModel> Weeks => GetWeeks(_now);
+        public IEnumerable<WeekModel> Weeks => GetWeeks(_today);
 
-        private IEnumerable<WeekModel> GetWeeks(DateTimeOffset dateTime)
+        private IEnumerable<WeekModel> GetWeeks(LocalDate dateTime)
         {
-            var firstDate = new DateTimeOffset(dateTime.Year, dateTime.Month, 1,0,0,0, dateTime.Offset);
+            var firstDate = new LocalDate(dateTime.Year, dateTime.Month, 1);
             var lastDayOfMonth = _cultureInfo.Calendar.GetDaysInMonth(firstDate.Year, firstDate.Month);
-            var lastDate = new DateTimeOffset(dateTime.Year, dateTime.Month, lastDayOfMonth,0,0,0, dateTime.Offset);
+            var lastDate = new LocalDate(dateTime.Year, dateTime.Month, lastDayOfMonth);
 
             var currentDate = firstDate;
             do
             {
                 var week = new WeekModel(_cultureInfo, currentDate);
                 yield return week;
-                currentDate = currentDate.AddDays(7);
+                currentDate = currentDate.PlusDays(7);
             } while (IsInWeek(currentDate, lastDate));
         }
 
-        private  bool IsInWeek(DateTimeOffset currentDate, DateTimeOffset lastDate)
+        private  bool IsInWeek(LocalDate currentDate, LocalDate lastDate)
         {
             if (currentDate < lastDate)
             {
                 return true;
             }
-
             var rule = _cultureInfo.DateTimeFormat.CalendarWeekRule;
             var firstDay = _cultureInfo.DateTimeFormat.FirstDayOfWeek;
-            var currentWeek = _cultureInfo.Calendar.GetWeekOfYear(currentDate.DateTime, rule, firstDay);
-            var lastWeek = _cultureInfo.Calendar.GetWeekOfYear(lastDate.DateTime, rule, firstDay);
+            var currentWeek = _cultureInfo.Calendar.GetWeekOfYear(currentDate.ToDateTimeUnspecified(), rule, firstDay);
+            var lastWeek = _cultureInfo.Calendar.GetWeekOfYear(lastDate.ToDateTimeUnspecified(), rule, firstDay);
             return currentWeek == lastWeek;
         }
     }
