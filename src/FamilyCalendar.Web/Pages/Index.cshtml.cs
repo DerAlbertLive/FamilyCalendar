@@ -12,6 +12,7 @@ namespace FamilyCalendar.Web.Pages
     public class IndexModel : PageModel
     {
 
+
         public IndexModel()
         {
             Dashboard = new DashboardModel();

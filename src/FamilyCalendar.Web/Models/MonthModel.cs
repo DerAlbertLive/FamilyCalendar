@@ -45,5 +45,10 @@ namespace FamilyCalendar.Web.Models
             var lastWeek = _cultureInfo.Calendar.GetWeekOfYear(lastDate.ToDateTimeUnspecified(), rule, firstDay);
             return currentWeek == lastWeek;
         }
+
+        public WeekModel GetWeekModelOf(LocalDate today)
+        {
+            return new WeekModel(_cultureInfo, today);
+        }
     }
 }

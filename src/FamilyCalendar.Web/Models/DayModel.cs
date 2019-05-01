@@ -7,8 +7,10 @@ namespace FamilyCalendar.Web.Models
 {
     public class DayModel
     {
+
         public DayModel(CultureInfo cultureInfo, LocalDate date)
         {
+            Date = date;
             Day = date.Day;
             DayOfWeek = date.DayOfWeek;
             DisplayName = cultureInfo.DateTimeFormat.GetAbbreviatedDayName(DayOfWeek.ToDayOfWeek());
@@ -19,6 +21,8 @@ namespace FamilyCalendar.Web.Models
             DisplayName = dayName;
             DayOfWeek = dayOfWeek;
         }
+
+        public LocalDate Date { get; }
 
         public string DisplayName { get; }
 

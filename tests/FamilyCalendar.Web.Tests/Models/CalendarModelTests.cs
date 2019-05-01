@@ -9,11 +9,6 @@ namespace FamilyCalendar.Web.Tests.Models
 {
     public class CalendarModelTests
     {
-
-        public CalendarModelTests()
-        {
-        }
-
         [Fact]
         public void With_Culture_de_de_Days_should_be_in_order_Mo_Di_Mi_Do_Fr_Sa_So()
         {

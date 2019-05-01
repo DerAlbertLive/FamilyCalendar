@@ -9,7 +9,7 @@ namespace FamilyCalendar.Web.Tests.Models
 {
     public class DayModelTests
     {
-        private CultureInfo _cultureInfo;
+        private readonly CultureInfo _cultureInfo;
 
         public DayModelTests()
         {

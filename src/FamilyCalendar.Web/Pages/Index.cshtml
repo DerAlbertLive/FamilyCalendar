@@ -1,9 +1,44 @@
 ﻿@page
+@using NodaTime
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    DateTimeZone localZone = DateTimeZoneProviders.Tzdb["Europe/Berlin"];
+
 }
 
+
+<table class="table">
+    <thead>
+    <tr>
+        @foreach (var day in Model.Dashboard.Calender.Days)
+        {
+            <th>@day.DisplayName</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var day in Model.Dashboard.Calender.CurrentWeek.Days)
+            {
+                var css = day.IsInMonth ? "current-month" : "other-month";
+                <td class="@css">@day.Day<br/>
+                    @{
+                        foreach (var person in Model.Dashboard.People)
+                        {
+                            var activities = person.GetActivitiesForDate(day.Date, localZone);
+                            foreach (var activity in activities)
+                            {
+                                var localBegin = activity.Begin.WithZone(localZone);
+                                @localBegin.ToString("HH:mm", Model.Dashboard.Calender.CultureInfo) @activity.Subject<br/>
+                            }
+                        }
+                    }
+                    </td>
+            }
+        </tr>
+    </tbody>
+</table>
 
 
 <table class="table">

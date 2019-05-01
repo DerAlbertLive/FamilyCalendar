@@ -22,10 +22,6 @@ namespace FamilyCalendar.Web.Models
         {
             var firstDayOfWeek = (int)_cultureInfo.DateTimeFormat.FirstDayOfWeek;
             var currentDayOfWeek = (int)localDate.DayOfWeek;
-            //if (currentDayOfWeek == 0)
-            //{
-            //    currentDayOfWeek = 7;
-            //}
             var offsetDays = -(currentDayOfWeek - firstDayOfWeek);
 
             var startWeekDate = localDate.PlusDays(offsetDays);
